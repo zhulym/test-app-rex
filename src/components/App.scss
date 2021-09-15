@@ -1,0 +1,25 @@
+$textColor: #61dafb;
+.App {
+  width: 1200px !important;
+  padding: 30px 20px;
+  margin: 0 auto;
+  background-color: #282c34;
+  min-height: 100vh;
+  font-size: calc(5px + 2vmin);
+  color: $textColor;
+}
+
+.users__title {
+  text-align: center;
+}
+
+.sort-search__container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  align-items: flex-end;
+}
+
+.users__not-found {
+  text-align: center;
+}

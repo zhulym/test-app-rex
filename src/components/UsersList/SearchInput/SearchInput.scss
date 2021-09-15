@@ -1,0 +1,22 @@
+$textColor: #61dafb;
+
+.users__search-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  outline: none;
+  border-radius: 3px;
+  border: 1px solid #0d6efd;
+  color: $textColor;
+  background-color: #4c5363;
+  padding: 5px 10px;
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: text;
+    border-color: $textColor;
+    box-shadow: 0 0 10px $textColor;
+  }
+  &::placeholder {
+    color: #9db1ce;
+  }
+}

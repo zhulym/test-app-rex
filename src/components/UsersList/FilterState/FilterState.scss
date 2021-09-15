@@ -1,0 +1,39 @@
+$textColor: #61dafb;
+$lineColor: #0d6efd;
+$backColorElem: #49505f;
+
+.sort__select {
+  position: relative;
+}
+
+.sort__select-item {
+  display: block;
+  width: 100%;
+  padding: 12px 10px;
+  background: $backColorElem;
+  border: 1px solid $lineColor;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: $textColor;
+  outline: none;
+  transition: all 0.3s ease;
+  &::after {
+    content: "";
+    display: block;
+    border-style: solid;
+    border-width: 6px 5px 0 5px;
+    border-color: $textColor;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    z-index: 1;
+    margin-top: -3px;
+  }
+  &:hover {
+    cursor: pointer;
+    border-color: $textColor;
+    box-shadow: 0 0 10px $textColor;
+  }
+}
