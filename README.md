@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Deploy App
+
+http://zhulym.github.io/test-app-rex
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
