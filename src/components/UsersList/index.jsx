@@ -3,21 +3,28 @@ import React from 'react';
 //styles
 import '../UsersList/UsersList.scss';
 
-const UsersList = ({ sortUsers, setTypeOfSortCallBack, setIsProfileCallBack, setCurrentProfileCallBack }) => {
-  const fields = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'State',]
+const UsersList = (props) => {
+  const fields = ['id', 'First Name', 'Last Name', 'Email', 'Phone', 'State',]
+  let sortTargetValue;
 
   const showProfile = (e) => {
     const currentId = Number(e.target.parentNode.firstChild.innerText);
-    const currentUser = sortUsers.find(user => user.id === currentId);
-    setIsProfileCallBack(true);
-    setCurrentProfileCallBack(currentUser);
+    const currentUser = props.sortUsers.find(user => user.id === currentId);
+    props.setIsProfileCallBack(true);
+    props.setCurrentProfileCallBack(currentUser);
   }
 
   const setSortValue = (e) => {
     let sortTarget = e.target.parentNode.innerText;
     sortTarget = sortTarget.charAt(0).toLowerCase() + sortTarget.slice(1, sortTarget.length);
-    let sortTargetValue = sortTarget.slice(0, sortTarget.length - 2).split(' ').join('');
-    setTypeOfSortCallBack(sortTargetValue);
+    sortTargetValue = sortTarget.slice(0, sortTarget.length - 2).split(' ').join('');
+
+    if (props.typeOfSort.toLowerCase() === sortTargetValue.toLowerCase()) {
+      props.setIsClickedSortCallBack(!props.isClickedSort);
+    } else {
+      props.setIsClickedSortCallBack(false);
+    }
+    props.setTypeOfSortCallBack(sortTargetValue);
   }
 
   return (
@@ -30,8 +37,8 @@ const UsersList = ({ sortUsers, setTypeOfSortCallBack, setIsProfileCallBack, set
         </tr>
       </thead>
       <tbody>
-        {sortUsers.map((user, i) => (
-          <tr key={user.id + i} className="user__item" onClick={showProfile}>
+        {props.sortUsers.map((user, i) => (
+          <tr key={user.id + user.phone} className="user__item" onClick={showProfile}>
             <td>{user.id}</td>
             <td>{user.firstName}</td>
             <td>{user.lastName}</td>
@@ -42,7 +49,7 @@ const UsersList = ({ sortUsers, setTypeOfSortCallBack, setIsProfileCallBack, set
         )
         )}
       </tbody>
-    </table>
+    </table >
   )
 }
 export default UsersList;

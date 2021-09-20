@@ -19,11 +19,13 @@ const App = () => {
   const [typeOfSort, setTypeOfSort] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [filterState, setFilterState] = useState('');
+  const [isClickedSort, setIsClickedSort] = useState(false);
+  let direction = !isClickedSort ? 'asc' : 'desc';
 
   const fetchUsers = useCallback(async () => {
     try {
       const usersData = (await getUsers()) || [];
-      setUsers(usersData.sort((a, b) => a['id'] - b['id']).slice(indexes.start, indexes.end));
+      setUsers(usersData.slice(indexes.start, indexes.end));
     } catch (error) {
       console.log(error)
     }
@@ -33,32 +35,30 @@ const App = () => {
     fetchUsers();
   }, [fetchUsers]);
 
-  const sortUsers = useMemo(() => {
+  const sortData = (data = [], type, order = direction) => {
+    return [...data].sort((a, b) => order === 'asc' ? a[type]?.localeCompare(b[type]) : b[type]?.localeCompare(a[type]));
+  }
+
+  const sortUsers = useMemo((order) => {
     switch (true) {
-      case typeOfSort === 'iD':
-        return [...users].sort((a, b) => a[typeOfSort] - b[typeOfSort])
-      case typeOfSort === 'firstName':
-        return [...users].sort((a, b) => a[typeOfSort].localeCompare(b[typeOfSort]))
-      case typeOfSort === 'lastName':
-        return [...users].sort((a, b) => a[typeOfSort].localeCompare(b[typeOfSort]))
-      case typeOfSort === 'firstName':
-        return [...users].sort((a, b) => a[typeOfSort].localeCompare(b[typeOfSort]))
-      case typeOfSort === 'email':
-        return [...users].sort((a, b) => a[typeOfSort].localeCompare(b[typeOfSort]))
-      case typeOfSort === 'phone':
-        return [...users].sort((a, b) => a[typeOfSort].localeCompare(b[typeOfSort]))
-      case typeOfSort === 'state':
+      case typeOfSort === 'id' && direction === 'asc':
+        return [...users].sort((a, b) => a[typeOfSort] - b[typeOfSort]);
+      case typeOfSort === 'id' && direction === 'desc':
+        return [...users].sort((a, b) => b[typeOfSort] - a[typeOfSort]);
+      case typeOfSort === 'state' && direction === 'asc':
         return [...users].sort((a, b) => a.adress[typeOfSort].localeCompare(b.adress[typeOfSort]))
+      case typeOfSort === 'state' && direction === 'desc':
+        return [...users].sort((a, b) => b.adress[typeOfSort].localeCompare(a.adress[typeOfSort]))
       default:
-        return users;
+        return sortData(users, typeOfSort, order)
     }
-  }, [typeOfSort, users, filterState])
+  }, [typeOfSort, users, filterState, sortData])
 
   const sortSearchUsers = useMemo(() => {
     if (Boolean(filterState)) {
       return sortUsers.filter(user => user.adress.state === filterState)
     }
-    return sortUsers.filter(user => user.firstName.toLowerCase().includes(searchValue));
+    return sortUsers.filter(user => user.firstName.toLowerCase().includes(searchValue.toLowerCase()));
   }, [searchValue, sortUsers, filterState])
 
   const filterUsers = (e) => {
@@ -83,6 +83,9 @@ const App = () => {
               setTypeOfSortCallBack={setTypeOfSort}
               setIsProfileCallBack={setIsProfile}
               setCurrentProfileCallBack={setCurrentProfile}
+              setIsClickedSortCallBack={setIsClickedSort}
+              typeOfSort={typeOfSort}
+              isClickedSort={isClickedSort}
             />
           </>
           ) : (<h2 className="users__not-found">No Users! Change search and filter values!</h2>)}

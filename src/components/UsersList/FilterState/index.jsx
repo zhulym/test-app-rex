@@ -9,8 +9,8 @@ const FilterState = ({ filterUsers, states }) => {
     <div className="sort__select">
       <select className="sort__select-item" onChange={filterUsers}>
         <option value="">Filter by state:</option>
-        {states.map(state => (
-          <option key={state} value={state}>{state}</option>)
+        {states.map((state, i) => (
+          <option key={(state + i)} value={state}>{state}</option>)
         )}
 
       </select>
